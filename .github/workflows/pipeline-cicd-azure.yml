@@ -31,7 +31,7 @@ jobs:
     - name: Push Docker to Azure Container Registry
       run: docker push gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
 
-  build-and-push:
+  push-to-aci:
     runs-on: ubuntu-latest
 
     steps:
