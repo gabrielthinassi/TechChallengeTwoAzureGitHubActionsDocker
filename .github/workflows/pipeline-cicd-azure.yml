@@ -32,7 +32,7 @@ jobs:
       run: docker push gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
     
     - name: Deploy to Azure Container Instance
-        uses: azure/container-instance-action@v1
+        uses: Azure/aci-deploy@v1
         with:
           resource-group: gmtpostechrg
           name: gmtpostechaci
