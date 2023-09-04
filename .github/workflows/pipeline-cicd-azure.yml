@@ -1,4 +1,4 @@
-name: techchallengetwoapp
+name: build-and-deploy-production
 
 on:
   push:
@@ -32,12 +32,13 @@ jobs:
       run: docker push gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
     
     - name: Deploy to Azure Container Instance
-        uses: Azure/aci-deploy@v1
+        uses: azure/aci-deploy@v1
         with:
-          resource-group: gmtpostechrg
-          name: gmtpostechaci
-          image: gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
-          registry-username: ${{ secrets.ACR_USERNAME }} 
-          registry-password: ${{ secrets.ACR_PASSWORD }} 
-          dns-name-label: gmtpostechaciwebapp
-          location: brazilsouth
+            resource-group: gmtpostechrg
+            dns-name-label: gmtpostechrg${{ github.run_number }}
+            image: gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
+            registry-login-server: gmtpostechacr.azurecr.io
+            registry-username: ${{ secrets.ACR_USERNAME }}
+            registry-password: ${{ secrets.ACR_PASSWORD }}
+            name: gmtpostechaci
+            location: 'brazilsouth'
