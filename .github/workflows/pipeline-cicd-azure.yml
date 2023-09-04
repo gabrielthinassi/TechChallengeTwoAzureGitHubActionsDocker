@@ -37,7 +37,7 @@ jobs:
           resource-group: gmtpostechrg
           name: gmtpostechaci
           image: gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
+          registry-username: ${{ secrets.ACR_USERNAME }} 
+          registry-password: ${{ secrets.ACR_PASSWORD }} 
           dns-name-label: gmtpostechaciwebapp
-          os-type: Linux
-          cpu: 0.5
-          memory: 1.5Gi
+          location: brazilsouth
