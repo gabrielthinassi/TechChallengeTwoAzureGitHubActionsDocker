@@ -47,10 +47,9 @@ jobs:
       uses: azure/aci-deploy@v1
       with:
           resource-group: gmtpostechrg
-          dns-name-label: gmtpostechrg${{ github.run_number }}
+          name: gmtpostechaci
           image: gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
-          registry-login-server: gmtpostechacr.azurecr.io
           registry-username: ${{ secrets.ACR_USERNAME }}
           registry-password: ${{ secrets.ACR_PASSWORD }}
-          name: gmtpostechaci
+          dns-name-label: gmtpostechrg${{ github.run_number }}
           location: 'brazilsouth'
