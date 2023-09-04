@@ -1,0 +1,24 @@
+name: deploy-to-aci-production
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  push-to-aci:
+    runs-on: ubuntu-latest
+
+    - name: Deploy to Azure Container Instance
+        uses: azure/aci-deploy@v1
+        with:
+            resource-group: gmtpostechrg
+            dns-name-label: gmtpostechrg${{ github.run_number }}
+            image: gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
+            registry-login-server: gmtpostechacr.azurecr.io
+            registry-username: ${{ secrets.ACR_USERNAME }}
+            registry-password: ${{ secrets.ACR_PASSWORD }}
+            name: gmtpostechaci
+            location: 'brazilsouth'
