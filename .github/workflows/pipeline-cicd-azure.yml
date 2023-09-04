@@ -1,4 +1,4 @@
-name: build-and-registry-production
+name: build-and-deploy-production
 
 on:
   push:
@@ -8,14 +8,14 @@ on:
 
 jobs:
 
-  build-and-push:
+  build-and-push-acr:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Login into Azure Container Registry
+    - name: Login into Azure
       uses: azure/docker-login@v1
       with:
         login-server: gmtpostechacr.azurecr.io
@@ -32,9 +32,17 @@ jobs:
       run: docker push gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
 
   push-to-aci:
+    needs: build-and-push-acr
     runs-on: ubuntu-latest
 
     steps:
+    - name: Login into Azure
+      uses: azure/docker-login@v1
+      with:
+        login-server: gmtpostechacr.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
     - name: Deploy to Azure Container Instance
       uses: azure/aci-deploy@v1
       with:
