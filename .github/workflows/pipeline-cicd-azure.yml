@@ -30,3 +30,14 @@ jobs:
 
     - name: Push Docker to Azure Container Registry
       run: docker push gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
+    
+    - name: Deploy to Azure Container Instance
+        uses: azure/container-instance-action@v1
+        with:
+          resource-group: gmtpostechrg
+          name: gmtpostechaci
+          image: gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
+          dns-name-label: gmtpostechaciwebapp
+          os-type: Linux
+          cpu: 0.5
+          memory: 1.5Gi
