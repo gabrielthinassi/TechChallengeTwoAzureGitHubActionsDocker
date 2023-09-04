@@ -13,9 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout code
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag techchallengetwoapp:latest
 
     - name: Login into Azure Container Registry
       uses: azure/docker-login@v1
@@ -24,5 +23,11 @@ jobs:
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
 
+    - name: Build the Docker image
+      run: docker build -t techchallengetwoapp:${{ github.sha }} .
+
+    - name: Tag Docker Image
+      run: docker tag techchallengetwoapp:${{ github.sha }} gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
+
     - name: Push Docker to Azure Container Registry
-      run: docker push gmtpostechacr.azurecr.io/techchallengetwoapp:latest
+      run: docker push gmtpostechacr.azurecr.io/techchallengetwoapp:${{ github.sha }}
