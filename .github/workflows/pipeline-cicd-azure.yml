@@ -15,7 +15,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Login into Azure
+    - name: Login into Azure Container Registry
       uses: azure/docker-login@v1
       with:
         login-server: gmtpostechacr.azurecr.io
@@ -37,11 +37,9 @@ jobs:
 
     steps:
     - name: Login into Azure
-      uses: azure/docker-login@v1
+      uses: azure/login@v1
       with:
-        login-server: gmtpostechacr.azurecr.io
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy to Azure Container Instance
       uses: azure/aci-deploy@v1
